@@ -1,24 +1,9 @@
 import streamlit as st
 import pandas as pd
-import mysql.connector
 import time
 
 #required variables
 password=None
-def datatable():
-    connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="2004",
-            database="keerthivasan"
-        )
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM flames")
-    data=cursor.fetchall()
-    table_columns=['Name', 'Partner Name', 'Character Difference', 'Relation']
-    values=pd.DataFrame(data,columns=table_columns)
-    st.sidebar.subheader("Table Data")
-    st.sidebar.dataframe(values,hide_index=True,use_container_width=True)
 
 #Page Title
 st.set_page_config(page_title="Flames",page_icon=":❤️:")
@@ -37,58 +22,13 @@ st.sidebar.markdown("---")
 st.sidebar.title(":green[About Developer]")
 st.sidebar.write(":gray[This web application is developed by :violet[Keerthivasan S J]]")
 
-#developer button
-st.sidebar.subheader(":green[Developer Authantication]")
-st.sidebar.write(":red[NOTE] : :gray[This button is only accessable by the developer]")
-password_warning=st.sidebar.empty()
-password=st.sidebar.text_input("Password",type="password")
-developer_authantication=st.sidebar.button(":orange[verify]")
-
-if developer_authantication:
-    if password=="123":
-        datatable()
-    else:
-        password_warning.warning("Enter valid password",icon="❗")
     
 
 #Contact information
 st.sidebar.title(":green[Reach out]")
 st.sidebar.write(":blue[**:orange[Email]** : keerthivasan.cs22.krct.ac.in]")
 
-#database connection
-def database(bname,gname,chardiff,result):
-    try:
-        connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="2004",
-            database="keerthivasan"
-        )
-        cursor = connection.cursor()
-        cursor.execute('''
-                    CREATE TABLE IF NOT EXISTS Flames(
-                    Name varchar(30),
-                    PartnerName varchar(30),
-                    CharacterDifference int,
-                    Result varchar(30)
-                    )
-        ''')
 
-        query = '''
-                INSERT INTO Flames (Name,PartnerName,CharacterDifference,Result)
-                VALUES (%s, %s, %s, %s)
-            '''
-        cursor.execute(query,(bname,gname,chardiff,result))
-        
-
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-
-    finally:
-        connection.commit()
-        connection.close()
-
-    return True
 
 #Flames Logic
 def flames(name1,name2):
@@ -137,9 +77,6 @@ if st.button(":orange[Submit]"):
             message="Don't take it serious it's just a game😇"
         elif result[1]=="SISTER":
             message="You both are good brother and sisters 🧑‍🤝‍🧑"
-
-        if database(bname,gname,result[0],result[1]):
-            print("Data stored to database sucessfully")
             
         st.header(f":violet[{result[0]}] Character differ from both name")
         st.title(f"Your Relation :red[{result[1]}]")
