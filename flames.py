@@ -4,7 +4,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 import time
 
 def store_data(name,partner_name,char_difference,relation):
-    credentials_path = "C:\\Users\\jagan\\Downloads\\flames-411812-8732b98b4892.json"
+    credentials_path = "flames-411812-8732b98b4892.json"
     sheet_key = '1RQ1Dtl75W6vvCnxoaWt5Cp9DICMqMruLZpsETCV3MHQ'
     worksheet_name = 'Sheet1'
 
