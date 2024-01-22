@@ -1,31 +1,5 @@
 import streamlit as st
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 import time
-
-def store_data(name,partner_name,char_difference,relation):
-    credentials_path = "flames-411812-8732b98b4892.json"
-    sheet_key = '1RQ1Dtl75W6vvCnxoaWt5Cp9DICMqMruLZpsETCV3MHQ'
-    worksheet_name = 'Sheet1'
-
-    # Authenticate with Google Sheets API
-    scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
-    gc = gspread.authorize(credentials)
-
-    # Open the Google Sheet by key
-    sh = gc.open_by_key(sheet_key)
-
-    # Select the worksheet by name
-    worksheet = sh.worksheet(worksheet_name)
-    worksheet.append_row([name,partner_name,char_difference,relation])
-
-    print("Data inserted successfully.")
-
-
-#required variables
-password=None
-
 
 #Page Title
 st.set_page_config(page_title="Flames",page_icon=":❤️:")
@@ -96,8 +70,6 @@ if st.button(":orange[Submit]"):
             message="Don't take it serious it's just a game😇"
         elif result[1]=="SISTER":
             message="You both are good brother and sisters 🧑‍🤝‍🧑"
-
-        store_data(bname,gname,result[0],result[1])
 
         st.header(f":violet[{result[0]}] Character differ from both name")
         st.title(f"Your Relation :red[{result[1]}]")
